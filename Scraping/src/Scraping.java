@@ -8,29 +8,26 @@ import org.jsoup.select.Elements;
 
 public class Scraping {
 
-	public static final String url = "https://www.mercadolibre.com.ar/";
+	public static final String url = "https://www.garbarino.com/";
 
 	public static void main(String[] args) {
-		
+
 		// Compruebo si me da un 200 al hacer la petición
 		if (getStatusConnectionCode(url) == 200) {
 
 			// Obtengo el HTML de la web en un objeto Document
 			Document document = getHtmlDocument(url);
 
-			// Busco todas las entradas que estan dentro de:
-			Elements entradas = document.select("div.ui-item__content");
-			System.out.println("Número de entradas en la página inicial de MercadoLibre: " + entradas.size() + "\n");
+			String titulo = document.title();
 
-			// Paseo cada una de las entradas
-			for (Element elem : entradas) {
-				String item = elem.getElementsByClass("ui-item__title").text();
-				String precio = elem.getElementsByClass("price-tag ui-item__price").text();
+			System.out.println(titulo + "\n");
 
-				System.out.println(item + "\n" +precio+ "\n");
+			Elements productos = document.getElementsByClass("gb-offers-carousel-product-name");
+			Elements precios = document.getElementsByClass("value-item ");
 
-				// Con el método "text()" obtengo el contenido que hay dentro de las etiquetas HTML
-				// Con el método "toString()" obtengo todo el HTML con etiquetas incluidas
+			for (int i = 0; i < productos.size(); i++) {
+				System.out.println(productos.get(i).text());
+				System.out.println(precios.get(i).text() + "\n");
 			}
 
 		} else
